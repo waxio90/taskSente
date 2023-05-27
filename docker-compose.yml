@@ -24,6 +24,7 @@ services:
       context: ./docker/node
     volumes:
       - .:/var/www
+    command: ["tail", "-f", "/dev/null"]
     networks:
       - symfony
 
