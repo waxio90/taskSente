@@ -1,7 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% endblock %}
+{% block title %}Lista zamówień{% endblock %}
 
 {% block body %}
-
+    <div class="navbar"></div>
+    <div class="container">
+        <table class="table table-success table-striped table-hover text-center">
+            <tr>
+                <th>Ref zamówienia</th>
+                <th>Nazwa klienta</th>
+                <th>Data zarejestrowania zamówienia</th>
+                <th>Symbol zamówienia</th>
+                <th>Data wysłania zamówienia</th>
+                <th>Czy zafakturowane</th>
+            </tr>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.ref }}</td>
+                <td>{{ order.client_name }}</td>
+                <td>{{ order.regdate|date("Y-m-d H:i:s") }}</td>
+                <td>{{ order.symbol }}</td>
+                <td>{{ order.send_date|date("Y-m-d H:i:s") }}</td>
+                <td>
+                    {% if order.invoiced == 0 %}
+                        Nie
+                    {% else %}
+                        Tak
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 {% endblock %}
