@@ -41,6 +41,7 @@ class OrderController extends AbstractController
     {
         $sessionKey = $request->query->get('sessionKey');
         $transferredListOrder = $session->get($sessionKey);
+        $transferredListOrder = !empty($transferredListOrder) ? $transferredListOrder : $this->ordersData;
         $sortParameters = [
             'sort_column' => $request->get('sort_column'),
             'sort_direction' => $request->get('sort_direction')
