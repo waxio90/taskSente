@@ -1,3 +1,10 @@
+{% if orders is not empty %}
+    {% set session = app.session %}
+    {% set sessionKey = 'orders' %}
+    {% set _ = session.set(sessionKey, orders) %}
+{% else %}
+    {% set sessionKey = '' %}
+{% endif %}
 {% extends 'base.html.twig' %}
 
 {% block title %}Lista zamówień{% endblock %}
@@ -5,11 +12,17 @@
 {% block body %}
     <div class="navbar"></div>
     <div class="container">
-        <div class="input-group mb-4 w-50">
-            <input type="text" class="form-control" placeholder="Wprowadź ref lub symbol zamówienia"
-                   aria-label="Recipient's username" aria-describedby="button-addon2">
-            <button class="btn btn-outline-secondary" type="button" id="button-addon2">Szukaj</button>
-        </div>
+        <form method="post" action="{{ path('search_orders') }}">
+            <div class="input-group mb-4 w-50">
+                <input type="text" name="search" class="form-control" placeholder="Wprowadź ref lub symbol zamówienia"
+                       aria-label="Recipient's username" aria-describedby="button-addon2" required>
+                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Szukaj</button>
+                <a href="{{ path('list_orders') }}">
+                    <button type="button" class="btn btn-primary">Wyczyść wyszukiwanie</button>
+                </a>
+            </div>
+        </form>
+
     </div>
     <div class="container">
         <table class="table table-success table-striped table-hover text-center table-bordered">
@@ -17,18 +30,18 @@
                 <tr>
                     <th>
                         {% if sort is not defined or sort.sort_column != 'ref' %}
-                        <a class="text-decoration-none text-black link-primary"
-                           href="{{ path('sort_list_orders', {'name': 'sorting', 'sort_column': 'ref', 'sort_direction': 'desc'}) }}">
-                            Ref zamówienia
-                        </a>
+                            <a class="text-decoration-none text-black link-primary"
+                               href="{{ path('sort_list_orders', {'sort_column': 'ref', 'sort_direction': 'desc', 'sessionKey': sessionKey }) }}">
+                                Ref zamówienia
+                            </a>
                         {% elseif sort.sort_column == 'ref' and sort.sort_direction == 'desc'%}
                         <a class="text-decoration-none text-black link-primary"
-                           href="{{ path('sort_list_orders', {'name': 'sorting', 'sort_column': 'ref', 'sort_direction': 'asc'}) }}">
+                           href="{{ path('sort_list_orders', {'sort_column': 'ref', 'sort_direction': 'asc', 'sessionKey': sessionKey}) }}">
                             Ref zamówienia &#9660;
                         </a>
                         {% elseif sort.sort_column == 'ref' and sort.sort_direction == 'asc' %}
                         <a class="text-decoration-none text-black link-primary"
-                           href="{{ path('sort_list_orders', {'name': 'sorting', 'sort_column': 'ref', 'sort_direction': 'desc'}) }}">
+                           href="{{ path('sort_list_orders', {'sort_column': 'ref', 'sort_direction': 'desc', 'sessionKey': sessionKey}) }}">
                             Ref zamówienia &#9650;
                         </a>
                         {% endif %}
@@ -37,17 +50,17 @@
                     <th>
                         {% if sort is not defined or sort.sort_column != 'regdate'%}
                             <a class="text-decoration-none text-black link-primary"
-                               href="{{ path('sort_list_orders', {'name': 'sorting', 'sort_column': 'regdate', 'sort_direction': 'desc'}) }}">
+                               href="{{ path('sort_list_orders', {'sort_column': 'regdate', 'sort_direction': 'desc', 'sessionKey': sessionKey}) }}">
                                 Data zarejestrowania zamówienia
                             </a>
                         {% elseif sort.sort_column == 'regdate' and sort.sort_direction == 'desc'%}
                             <a class="text-decoration-none text-black link-primary"
-                               href="{{ path('sort_list_orders', {'name': 'sorting', 'sort_column': 'regdate', 'sort_direction': 'asc'}) }}">
+                               href="{{ path('sort_list_orders', {'sort_column': 'regdate', 'sort_direction': 'asc', 'sessionKey': sessionKey}) }}">
                                 Data zarejestrowania zamówienia &#9660;
                             </a>
                         {% elseif sort.sort_column == 'regdate' and sort.sort_direction == 'asc' %}
                             <a class="text-decoration-none text-black link-primary"
-                               href="{{ path('sort_list_orders', {'name': 'sorting', 'sort_column': 'regdate', 'sort_direction': 'desc'}) }}">
+                               href="{{ path('sort_list_orders', {'sort_column': 'regdate', 'sort_direction': 'desc', 'sessionKey': sessionKey}) }}">
                                 Data zarejestrowania zamówienia &#9650;
                             </a>
                         {% endif %}
@@ -55,17 +68,17 @@
                     <th>
                         {% if sort is not defined or sort.sort_column != 'symbol'%}
                             <a class="text-decoration-none text-black link-primary"
-                               href="{{ path('sort_list_orders', {'name': 'sorting', 'sort_column': 'symbol', 'sort_direction': 'desc'}) }}">
+                               href="{{ path('sort_list_orders', {'sort_column': 'symbol', 'sort_direction': 'desc', 'sessionKey': sessionKey}) }}">
                                 Symbol zamówienia
                             </a>
                         {% elseif sort.sort_column == 'symbol' and sort.sort_direction == 'desc'%}
                             <a class="text-decoration-none text-black link-primary"
-                               href="{{ path('sort_list_orders', {'name': 'sorting', 'sort_column': 'symbol', 'sort_direction': 'asc'}) }}">
+                               href="{{ path('sort_list_orders', {'sort_column': 'symbol', 'sort_direction': 'asc', 'sessionKey': sessionKey}) }}">
                                 Symbol zamówienia &#9660;
                             </a>
                         {% elseif sort.sort_column == 'symbol' and sort.sort_direction == 'asc' %}
                             <a class="text-decoration-none text-black link-primary"
-                               href="{{ path('sort_list_orders', {'name': 'sorting', 'sort_column': 'symbol', 'sort_direction': 'desc'}) }}">
+                               href="{{ path('sort_list_orders', {'sort_column': 'symbol', 'sort_direction': 'desc', 'sessionKey': sessionKey}) }}">
                                 Symbol zamówienia &#9650;
                             </a>
                         {% endif %}
@@ -76,17 +89,17 @@
                         </a>
                         {% if sort is not defined or sort.sort_column != 'send_date'%}
                             <a class="text-decoration-none text-black link-primary"
-                               href="{{ path('sort_list_orders', {'name': 'sorting', 'sort_column': 'send_date', 'sort_direction': 'desc'}) }}">
+                               href="{{ path('sort_list_orders', {'sort_column': 'send_date', 'sort_direction': 'desc', 'sessionKey': sessionKey}) }}">
                                 Data wysłania zamówienia
                             </a>
                         {% elseif sort.sort_column == 'send_date' and sort.sort_direction == 'desc'%}
                             <a class="text-decoration-none text-black link-primary"
-                               href="{{ path('sort_list_orders', {'name': 'sorting', 'sort_column': 'send_date', 'sort_direction': 'asc'}) }}">
+                               href="{{ path('sort_list_orders', {'sort_column': 'send_date', 'sort_direction': 'asc', 'sessionKey': sessionKey}) }}">
                                 Data wysłania zamówienia &#9660;
                             </a>
                         {% elseif sort.sort_column == 'send_date' and sort.sort_direction == 'asc' %}
                             <a class="text-decoration-none text-black link-primary"
-                               href="{{ path('sort_list_orders', {'name': 'sorting', 'sort_column': 'send_date', 'sort_direction': 'desc'}) }}">
+                               href="{{ path('sort_list_orders', {'sort_column': 'send_date', 'sort_direction': 'desc', 'sessionKey': sessionKey}) }}">
                                 Data wysłania zamówienia &#9650;
                             </a>
                         {% endif %}

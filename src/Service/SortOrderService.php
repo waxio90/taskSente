@@ -4,7 +4,7 @@ namespace App\Service;
 
 use Exception;
 
-class SortService
+class SortOrderService
 {
     public function sortOrdersByParameters(array $sortParameters, array $listOrder): array
     {
