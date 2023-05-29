@@ -9,16 +9,18 @@
 
 ## Running
 
-1. Run `docker compose build --pull --no-cache` to build fresh images
-2. Run `docker compose up -d`
-3. Run command in terminal: `docker ps`
-4. Copy name container php
-5. Run command in terminal: `docker exec -it {paste_name_container_php} bash`
-6. Run command in container: `composer install`
-7. Exit container `ctrl + d` or command in container: `exit`
-8. Run command in terminal: `docker ps`
-9. Copy name container node
-10. Run command in terminal: `docker exec -it {paste_name_cantainer_node}`
-11. Run command in container: `yarn`
-12. Run command in container: `yarn build`
-13. Open `https://localhost:8080`)
+1. Run command in terminal: `cd taskSente`
+2. Run `docker compose build --pull --no-cache` to build fresh images
+3. Run `docker compose up -d`
+4. Run command in terminal: `docker ps`
+5. Copy name container php
+6. Run command in terminal: `docker exec -it {paste_name_container_php} bash`
+7. Run command in container: `composer install`
+8. Exit container `ctrl + d` or command in container: `exit`
+9. Run command in terminal: `docker ps`
+10. Copy name container node
+11. Run command in terminal: `docker exec -it {paste_name_cantainer_node}`
+12. Run command in container: `yarn`
+13. Run command in container: `yarn build`
+14. Exit container `ctrl + d` or command in container: `exit`
+15. Open in browser`https://localhost:8080`)
